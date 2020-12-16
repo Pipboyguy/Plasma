@@ -40,8 +40,7 @@ def plasma_train(
     elif (device_type == "GPU") & (not torch.cuda.is_available()):
         raise Exception("""GPU not found""")
     else:
-        raise Exception(
-            """Please choose between 'CPU' and 'GPU' for device type""")
+        raise Exception("""Please choose between 'CPU' and 'GPU' for device type""")
 
     model = model.to(device)
 
@@ -157,7 +156,6 @@ def plot_history(metrics_df):
 
     g = sns.lineplot(x="Epoch", y="value", hue="variable", data=metrics_df_)
 
-
     plt.show()
 
 
@@ -186,8 +184,7 @@ def find_optimal_lr(
     elif (device_type == "GPU") & (not torch.cuda.is_available()):
         raise Exception("""GPU not found""")
     else:
-        raise Exception(
-            """Please choose between 'CPU' and 'GPU' for device type""")
+        raise Exception("""Please choose between 'CPU' and 'GPU' for device type""")
 
     model = model.to(device)
 
