@@ -1,4 +1,4 @@
-- [X] requirements.txt
+- [x] requirements.txt
 - [ ] make pip installable
 - [ ] first example examples/simple_example.ipynb -- in progress
 - [ ] implement learning rate search algorithm
