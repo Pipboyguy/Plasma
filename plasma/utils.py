@@ -16,7 +16,7 @@ def plot_history(metrics_df):
     metrics_df_ = pd.melt(
         metrics_df,
         id_vars=["Epoch"],
-        value_vars=list(set(metrics_df.columns) - set(["Epoch"])),
+        value_vars=list(set(metrics_df.columns) - {"Epoch"}),
     )
 
     g = sns.lineplot(x="Epoch", y="value", hue="variable", data=metrics_df_)
@@ -28,13 +28,11 @@ def get_last_n_layers(model: nn.Module, n_layers: int = 2) -> list:
 
     named_layers = sorted(
         list(
-            set(
-                [
-                    re.findall("^[Ll]ayer\d", name)[0]
-                    for name, _ in model.named_modules()
-                    if re.search("^[Ll]ayer\d", name) is not None
-                ]
-            )
+            {
+                re.findall("^[Ll]ayer\d", name)[0]
+                for name, _ in model.named_modules()
+                if re.search("^[Ll]ayer\d", name) is not None
+            }
         )
     )
 
