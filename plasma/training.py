@@ -95,11 +95,7 @@ def find_lr(
         if batch_num > 1 and loss > 4e1 * best_loss:
             losses.append(loss)
             log_lrs.append(lr)
-            if len(log_lrs) > 20:
-                return log_lrs[10:], losses[10:]
-            else:
-                return log_lrs, losses
-
+            return (log_lrs[10:], losses[10:]) if len(log_lrs) > 20 else (log_lrs, losses)
         # record the best loss
 
         if loss < best_loss or batch_num == 1:
@@ -118,10 +114,7 @@ def find_lr(
 
     losses = moving_average(losses, 5)
 
-    if len(log_lrs) > 20:
-        return log_lrs[10:], losses[10:]
-    else:
-        return log_lrs, losses
+    return (log_lrs[10:], losses[10:]) if len(log_lrs) > 20 else (log_lrs, losses)
 
 
 def train(
@@ -200,9 +193,7 @@ def train(
         num_correct = 0
         num_training_examples = 0
 
-        for batch in tqdm(
-            train_loader, desc="Training Batch", leave=bool(epoch == epochs)
-        ):  #
+        for batch in tqdm(train_loader, desc="Training Batch", leave=epoch == epochs):  #
 
             optimizer.zero_grad()  # zeroize gradients
 
@@ -238,9 +229,7 @@ def train(
 
         model.eval()
 
-        for batch in tqdm(
-            val_loader, desc="Validation Batch", leave=bool(epoch == epochs)
-        ):
+        for batch in tqdm(val_loader, desc="Validation Batch", leave=epoch == epochs):
 
             inputs, targets = batch
             inputs = inputs.to(device)
@@ -267,7 +256,7 @@ def train(
         metrics_dict["Validation Loss"].append(valid_loss)
         metrics_dict["Training Accuracy"].append(training_accuracy)
         metrics_dict["Validation Accuracy"].append(validation_accuracy)
-        #### PRINT PERFORMANCE METRICS #####
+            #### PRINT PERFORMANCE METRICS #####
 
     metrics_dict = pd.DataFrame(metrics_dict)
 
